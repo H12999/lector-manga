@@ -179,3 +179,19 @@ header {
     cursor: pointer;
     font-weight: bold;
 }
+.selector-capitulos {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#select-ch {
+    background: #1a1a1a;
+    color: white;
+    padding: 10px 15px;
+    border: 1px solid #6c5ce7;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 80%;
+    max-width: 300px;
+    cursor: pointer;
+}
