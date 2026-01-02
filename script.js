@@ -96,35 +96,45 @@ async function abrirManga(id, titulo) {
 async function cargarCapitulo(id) {
     if(!id) return;
     const divPaginas = document.getElementById('paginas');
-    divPaginas.innerHTML = "<p style='padding:20px'>Cargando imágenes del capítulo...</p>";
+    divPaginas.innerHTML = "<p style='padding:20px'>Buscando servidor estable...</p>";
     
     try {
-        // Pedimos la información del servidor de imágenes a MangaDex
+        // 1. Obtenemos los datos del servidor de MangaDex
         const res = await fetch(PROXY + encodeURIComponent(`https://api.mangadex.org/at-home/server/${id}`));
         const data = await res.json();
         
         const hash = data.chapter.hash;
         const serverUrl = data.baseUrl;
-        
-        divPaginas.innerHTML = ""; // Limpiamos el mensaje de carga
-        
-        // Cargamos cada página directamente sin usar el Proxy para la imagen
-        data.chapter.data.forEach(imgName => {
+        const pgs = data.chapter.data; // Imágenes originales
+        const pgsSaver = data.chapter.dataSaver; // Imágenes comprimidas (Respaldo)
+
+        divPaginas.innerHTML = ""; 
+
+        pgs.forEach((imgName, index) => {
             const imgElement = document.createElement('img');
+            
+            // INTENTO 1: Servidor principal (Alta calidad)
             imgElement.src = `${serverUrl}/data/${hash}/${imgName}`;
             imgElement.style.width = "100%";
             imgElement.style.display = "block";
             imgElement.style.marginBottom = "10px";
-            
-            // Si hay un error con una imagen, intentamos cargar la versión de menor calidad (data-saver)
+
+            // INTENTO 2 (Si falla el 1): Probar servidor de datos comprimidos
             imgElement.onerror = () => {
-                imgElement.src = `${serverUrl}/data-saver/${hash}/${imgName}`;
+                console.log(`Fallo imagen ${index}, reintentando con servidor de respaldo...`);
+                imgElement.src = `${serverUrl}/data-saver/${hash}/${pgsSaver[index]}`;
+                
+                // INTENTO 3 (Si falla el 2): Usar un Proxy de respaldo diferente
+                imgElement.onerror = () => {
+                    const proxyAlternativo = "https://images.weserv.nl/?url=";
+                    imgElement.src = proxyAlternativo + encodeURIComponent(`${serverUrl}/data-saver/${hash}/${pgsSaver[index]}`);
+                };
             };
-            
+
             divPaginas.appendChild(imgElement);
         });
+
     } catch (error) {
-        divPaginas.innerHTML = "<p>Error al cargar las imágenes. Intenta seleccionar otro capítulo.</p>";
-        console.error(error);
+        divPaginas.innerHTML = "<p>El servidor de MangaDex no responde. Intenta con otro capítulo o espera unos segundos.</p>";
     }
 }
