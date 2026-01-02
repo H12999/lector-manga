@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+body {
+    background-color: #0a0a0a;
+    color: #eee;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+}
+
+/* Header elegante */
+header {
+    background: #111;
+    padding: 25px;
+    border-bottom: 2px solid #6c5ce7;
+    text-align: center;
+    position: sticky; top: 0; z-index: 100;
+}
+
+#busqueda {
+    padding: 12px 20px;
+    width: 85%;
+    max-width: 450px;
+    border-radius: 25px;
+    border: 1px solid #333;
+    background: #1a1a1a;
+    color: #fff;
+}
+
+/* Grid de Manga */
+.grid-manga {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    padding: 25px;
+}
+
+.card {
+    background: #151515;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+    border: 1px solid #222;
+}
+
+.card:hover { transform: scale(1.05); border-color: #6c5ce7; }
+
+.card img { width: 100%; height: 240px; object-fit: cover; }
+
+.card-info h3 { font-size: 13px; padding: 10px; margin: 0; text-align: center; }
+
+.badge-marcador {
+    position: absolute; top: 8px; left: 8px;
+    background: #00b894; color: #000;
+    padding: 3px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: bold;
+}
+
+/* Lector Modal */
+.modal {
+    display: none; position: fixed; z-index: 2000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: #000; overflow-y: auto;
+}
+
+.manga-title { text-align: center; padding: 60px 20px 20px; color: #6c5ce7; }
+
+#manga-pages img { width: 100%; display: block; margin: 0 auto; }
+
+.cerrar {
+    position: fixed; right: 20px; top: 15px;
+    font-size: 40px; color: #ff4757; cursor: pointer; z-index: 3000;
+}
+
+/* BOTÓN MARCADOR ESTILO MÓVIL */
+.marcador-flotante {
+    position: fixed;
+    bottom: 25px; right: 25px;
+    background: #6c5ce7;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    border: none;
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    z-index: 5000;
+    display: none; /* Se activa por JS */
+    align-items: center; justify-content: center;
+}
+
+.loading-state { padding-top: 200px; text-align: center; color: #6c5ce7; }
+
+/* Aviso de Continuar Lectura */
+.aviso-continuar {
+    background: rgba(108, 92, 231, 0.9);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--accent-hover);
+    animation: fadeIn 0.5s ease;
+}
+
+.btn-continuar {
+    background: #fff;
+    color: var(--accent);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-continuar:hover {
+    background: var(--success);
+    color: white;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* BOTÓN FLOTANTE DE GUARDADO */
+.btn-guardar-flotante {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #6c5ce7;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    z-index: 5000; /* Asegura que esté por encima de todo */
+    display: none; /* Se activa por JS */
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.btn-guardar-flotante:hover {
+    transform: scale(1.1);
+    background-color: #00b894;
+}
+
+/* BANNER DE CONTINUAR LECTURA */
+.banner-continuar {
+    background: #1a1a1a;
+    border: 2px solid #6c5ce7;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+.btn-ir-marcador {
+    background: #6c5ce7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
