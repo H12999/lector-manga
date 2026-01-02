@@ -3,38 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manga en Español</title>
+    <title>MangaReader ES</title>
     <link rel="stylesheet" href="style.css">
-    <title>MangaReader ES - Leer Manga Gratis</title>
-<meta name="description" content="Tu biblioteca personal de manga en español con marcador de páginas.">
 </head>
 <body>
-    <header>
-        <div class="nav-container">
-            <h1 onclick="location.reload()">MangaReader ES</h1>
-            <div class="search-box">
-                <input type="text" id="busqueda" placeholder="Buscar manga en español (Enter)...">
-                <div style="margin-top: 10px;">
-                    <button onclick="mostrarFavoritos()" class="btn-nav">⭐ Favoritos</button>
-                    <button onclick="buscarManga()" class="btn-nav">🏠 Inicio</button>
-                    <button id="btn-marcador" class="marcador-flotante">📍</button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main id="contenedor-manga" class="grid-manga"></main>
-
-    <div id="modal-lector" class="modal">
-        <div class="modal-contenido">
-            <span class="cerrar">&times;</span>
-            <div id="visor-paginas"></div>
+    <div class="header">
+        <h1>MangaReader ES</h1>
+        <input type="text" id="buscador" placeholder="Busca un manga y pulsa Enter...">
+        <div class="nav-buttons">
+            <button onclick="mostrarInicio()">🏠 Inicio</button>
+            <button onclick="mostrarFavoritos()">⭐ Mis Favoritos</button>
         </div>
     </div>
 
-    <button id="btn-guardar-flotante" class="btn-guardar-flotante">📍</button>
+    <div id="mensaje-inicio" class="bienvenida">
+        <h2>¡Bienvenido!</h2>
+        <p>Escribe el nombre de un manga arriba para empezar a leer.</p>
+    </div>
+
+    <div id="lista-manga" class="contenedor"></div>
+
+    <div id="modal-lector" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarLector()">&times;</span>
+            <div id="visor-manga"></div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
-    <button id="btn-marcador" class="marcador-flotante" title="Guardar posición de lectura">📍</button>
 </body>
 </html>
