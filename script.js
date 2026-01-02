@@ -96,13 +96,35 @@ async function abrirManga(id, titulo) {
 async function cargarCapitulo(id) {
     if(!id) return;
     const divPaginas = document.getElementById('paginas');
-    divPaginas.innerHTML = "Cargando...";
-    const res = await fetch(PROXY + encodeURIComponent(`https://api.mangadex.org/at-home/server/${id}`));
-    const data = await res.json();
-    divPaginas.innerHTML = "";
-    data.chapter.data.forEach(img => {
-        const image = document.createElement('img');
-        image.src = `${data.baseUrl}/data/${data.chapter.hash}/${img}`;
-        divPaginas.appendChild(image);
-    });
+    divPaginas.innerHTML = "<p style='padding:20px'>Cargando imágenes del capítulo...</p>";
+    
+    try {
+        // Pedimos la información del servidor de imágenes a MangaDex
+        const res = await fetch(PROXY + encodeURIComponent(`https://api.mangadex.org/at-home/server/${id}`));
+        const data = await res.json();
+        
+        const hash = data.chapter.hash;
+        const serverUrl = data.baseUrl;
+        
+        divPaginas.innerHTML = ""; // Limpiamos el mensaje de carga
+        
+        // Cargamos cada página directamente sin usar el Proxy para la imagen
+        data.chapter.data.forEach(imgName => {
+            const imgElement = document.createElement('img');
+            imgElement.src = `${serverUrl}/data/${hash}/${imgName}`;
+            imgElement.style.width = "100%";
+            imgElement.style.display = "block";
+            imgElement.style.marginBottom = "10px";
+            
+            // Si hay un error con una imagen, intentamos cargar la versión de menor calidad (data-saver)
+            imgElement.onerror = () => {
+                imgElement.src = `${serverUrl}/data-saver/${hash}/${imgName}`;
+            };
+            
+            divPaginas.appendChild(imgElement);
+        });
+    } catch (error) {
+        divPaginas.innerHTML = "<p>Error al cargar las imágenes. Intenta seleccionar otro capítulo.</p>";
+        console.error(error);
+    }
 }
